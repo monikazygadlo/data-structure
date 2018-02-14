@@ -61,9 +61,25 @@ export class List {
 
   /**
    * Removes node from the list
-   * @param node
+   * @param value
    */
-  // remove (node);
+  remove (value) {
+    let remove = new Node(value);
+    let current = this.head;
+    if (current._value !== remove._value) {
+      while (true) {
+        if (remove._value === current._next._value) {
+          current._next = current._next._next;
+          return remove;
+        } else {
+          current = current._next;
+        }
+      }
+    } else {
+      this.head = this.head._next;
+      return remove;
+    }
+  }
 
   /**
    * Creates an array based on the data
