@@ -7,6 +7,5 @@ lista.add(3);
 lista.add(2);
 lista.add(1);
 
-lista.remove(1);
-lista.remove(2);
-lista.remove(1);
+console.log(lista.toString());
+console.log(lista.toArray());

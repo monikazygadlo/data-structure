@@ -84,13 +84,20 @@ export class List {
   /**
    * Creates an array based on the data
    */
-  // toArray (){
-  //     Array.from('')
-  // }
+  toArray () {
+    let current = this.head;
+    const array = [];
+    while (current !== null) {
+      array.push(current._value);
+      current = current._next;
+    }
+    return array;
+  }
 
   /**
    * Stringify data
    */
-  //toString ();
+  toString () {
+    return this.toArray().join("->");
+  }
 }
-
