@@ -43,9 +43,21 @@ export class List {
 
   /**
    * Finds node by it's value
-   * @param node
+   * @param value
    */
-  //find (value) {}
+  find (value) {
+    let search = new Node(value);
+    let current = this.head;
+    while (true) {
+      if (search._value === current._value) {
+        return search;
+      } else if (current._next == null) {
+        return null;
+      } else {
+        current = current._next;
+      }
+    }
+  }
 
   /**
    * Removes node from the list
