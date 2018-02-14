@@ -1,4 +1,4 @@
-import {Node,List} from "./src/list";
+import { Node, List } from './src/list';
 
 const lista = new List();
 lista.add(5);

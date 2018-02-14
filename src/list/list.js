@@ -45,7 +45,7 @@ export class List {
    * Finds node by it's value
    * @param node
    */
-  //find (value){}
+  //find (value) {}
 
   /**
    * Removes node from the list
