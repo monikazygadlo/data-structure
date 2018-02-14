@@ -1,8 +1,14 @@
 import { Node } from './node';
 
 export class List {
-  constructor (head) {
+  constructor (comp) {
+    if (comp === undefined) {
+      comp = function (first, second) {
+        return first < second;
+      };
+    }
     this.head = null;
+    this.comparator = comp;
   }
 
   /**
@@ -12,27 +18,59 @@ export class List {
   add (value) {
     let node = new Node(value);
     let current = this.head;
-    if (this.head === null) { //gdy nie ma nic na liscie
-      this.head = node;
-    } else {                    //gdy mamy juz cos na liscie
-      if (this.head._value > node._value) {     //head wiekszy od nowej wartosci
-        node._next = this.head;        //head zostaje kolejnym nodem a nowa wartosc nowym headem
+    if (this.head === null) { //empty list
+      this.head = node;     //node become head
+    } else {                    //not empty list
+      if (this.head._value > node._value) {     //head bigger than node
+        node._next = this.head;        //head become node and node become head
         this.head = node;
         return node;
       } else {
         while (true) {
-          if (current._next) {    //za currentem cos jest
+          if (current._next) {    //current is not last
             if ((current._value < node._value) &&
-              (node._value <= current._next._value)) {     //current mniejszy od node i node jest mniejszy-rowny od current nexta
-              node._next = current._next;        //skoro tak to wstawiamy node
+              (node._value <= current._next._value)) {     //checking if current is smaller than node and node is smaller or equal to next
+              node._next = current._next;        //if yes implement node
               current._next = node;
               return node;
-            } else if (current._value < node._value) {                  //node wiekszy od current nexta wiec trzeba leciec dalej po liscie
-              current = current._next; //ustawienie current na kolejnego noda
+            } else if (current._value < node._value) { //node is bigger than next, continue checkingnexta wiec trzeba leciec dalej po liscie
+              current = current._next; //next become current
 
             }
-          } else {              //za currentem nic nie ma
-            node._next = current._next; //wstawiamy node
+          } else {              //current is last
+            node._next = current._next; //implement node
+            current._next = node;
+            return node;
+          }
+        }
+      }
+    }
+  }
+  add (value) {
+    let node = new Node(value);
+    let current = this.head;
+    if (this.head === null) { //empty list
+      this.head = node;       //node become head
+    } else {                    //not empty list
+      if (this.comparator(node._value, this.head._value)) {     //head bigger than node
+        node._next = this.head;        //head become node and node become head
+        this.head = node;
+        return node;
+      } else {
+        while (true) {
+          if (current._next) {    //current is not last
+            if ((this.comparator(current._value, node._value)) &&
+              (this.comparator(node._value, current._next._value)) &&
+              (node._value === current._next._value)) {     //checking if current is smaller than node and node is smaller or equal to next
+              node._next = current._next;        //if yes implement node
+              current._next = node;
+              return node;
+            } else if (this.comparator(current._value, node._value)) {   //node is bigger than next, continue checking
+              current = current._next; //next become current
+
+            }
+          } else {              //current is last
+            node._next = current._next; //implement node
             current._next = node;
             return node;
           }
@@ -49,12 +87,12 @@ export class List {
     let search = new Node(value);
     let current = this.head;
     while (true) {
-      if (search._value === current._value) {
+      if (search._value === current._value) { //searching value equal to current
         return search;
-      } else if (current._next == null) {
+      } else if (current._next == null) {  //list has only least
         return null;
       } else {
-        current = current._next;
+        current = current._next;   //next become current
       }
     }
   }
@@ -66,12 +104,15 @@ export class List {
   remove (value) {
     let remove = new Node(value);
     let current = this.head;
-    if (current._value !== remove._value) {
+    if (current._value !== remove._value) {  //removing anything except head
       while (true) {
-        if (remove._value === current._next._value) {
-          current._next = current._next._next;
+        if (remove._value === current._next._value) { //when removing value equal to next,
+          current._next = current._next._next;        //next next become next
           return remove;
-        } else {
+        } else if (current._next._next == null) {     //
+          return remove;
+        }
+        else {      //removing head
           current = current._next;
         }
       }
@@ -98,6 +139,6 @@ export class List {
    * Stringify data
    */
   toString () {
-    return this.toArray().join("->");
+    return this.toArray().join('->');
   }
 }
