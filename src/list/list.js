@@ -46,38 +46,6 @@ export class List {
       }
     }
   }
-  add (value) {
-    let node = new Node(value);
-    let current = this.head;
-    if (this.head === null) { //empty list
-      this.head = node;       //node become head
-    } else {                    //not empty list
-      if (this.comparator(node._value, this.head._value)) {     //head bigger than node
-        node._next = this.head;        //head become node and node become head
-        this.head = node;
-        return node;
-      } else {
-        while (true) {
-          if (current._next) {    //current is not last
-            if ((this.comparator(current._value, node._value)) &&
-              (this.comparator(node._value, current._next._value)) &&
-              (node._value === current._next._value)) {     //checking if current is smaller than node and node is smaller or equal to next
-              node._next = current._next;        //if yes implement node
-              current._next = node;
-              return node;
-            } else if (this.comparator(current._value, node._value)) {   //node is bigger than next, continue checking
-              current = current._next; //next become current
-
-            }
-          } else {              //current is last
-            node._next = current._next; //implement node
-            current._next = node;
-            return node;
-          }
-        }
-      }
-    }
-  }
 
   /**
    * Finds node by it's value
