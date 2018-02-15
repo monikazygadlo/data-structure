@@ -21,19 +21,20 @@ export class List {
     if (this.head === null) { //empty list
       this.head = node;     //node become head
     } else {                    //not empty list
-      if (this.head._value > node._value) {     //head bigger than node
+      if (this.comparator(node._value, this.head._value)) {     //head bigger than node
         node._next = this.head;        //head become node and node become head
         this.head = node;
         return node;
       } else {
         while (true) {
           if (current._next) {    //current is not last
-            if ((current._value < node._value) &&
-              (node._value <= current._next._value)) {     //checking if current is smaller than node and node is smaller or equal to next
+            if ((this.comparator(current._value, node._value)) &&
+              (this.comparator(node._value, current._next._value)) ||
+              (node._value === current._next._value)) {     //checking if current is smaller than node and node is smaller or equal to next
               node._next = current._next;        //if yes implement node
               current._next = node;
               return node;
-            } else if (current._value < node._value) { //node is bigger than next, continue checkingnexta wiec trzeba leciec dalej po liscie
+            } else if (this.comparator(current._value, node._value)) { //node is bigger than next, continue checkingnexta wiec trzeba leciec dalej po liscie
               current = current._next; //next become current
 
             }
