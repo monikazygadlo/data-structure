@@ -14,38 +14,58 @@ export class SkipList {
   find (value) {
     let search = new Node(value);
     let current = this.head;
-    for (let i = this.maxHeight - 1; i > 0; i--) {
-      while (current._next[i]._value < search._value) {
-        current = current._next[i];
-      }
-      if (current._value === search._value) {
-        return current._value;
-      }
-      else {
-        return 'node did not find';
-      }
-    }
-  }
+    let history = new Array(this.maxHeight).fill(null);  //array needed to remember extremes
 
-  add (value) {
-    let history = new Array(this.maxHeight).fill(null);
-    let current = this.head;
-    let nodeLevel = SkipList.randomHeight(this.maxHeight);
-    let node = new Node(value, nodeLevel);
     /*
-     Zaczynamy od MaxLevel i przemieszczamy wskaznik tak
-     dlugo jak value > current._next._value.
-     Jeśli value < current._next._value
+     Searching for pointer which points to searched value
      */
     for (let i = this.maxHeight - 1; i >= 0; i--) {
       while (current._next[i] !== null &&
       current._next[i]._value < value) {
         current = current._next[i];
       }
-      history[i] = current; //zapamietanie ekstrema;
+      history[i] = current;
     }
 
-    if (current === null || current._value !== node._value) {
+    current = current._next[0]; //rewriting current to next value
+
+    /*
+      checking if current node value is equal to searched value
+     */
+    if (current._value === search._value) {
+      for(let i=0; i<=this.maxHeight-1; i++){
+        if(history[i]._next[i] === current._next[i])
+          break;
+      }
+      while(this.maxHeight>0 && this.head._next[this.maxHeight] === 0){
+        level --;
+      }
+      return search;
+    } else {
+      return `node did not find`;
+    }
+  }
+
+  add (value) {
+    let history = new Array(this.maxHeight).fill(null); //array needed to remember extremes
+    let current = this.head;
+    let nodeLevel = SkipList.randomHeight(this.maxHeight);
+    let node = (value instanceof Node) ? value:new Node(value, nodeLevel);
+
+    /*
+      Searching for the place for new value
+     */
+    for (let i = this.maxHeight - 1; i >= 0; i--) {
+      while (current._next[i] !== null &&
+      current._next[i]._value < value) {
+        current = current._next[i];
+      }
+      history[i] = current;
+    }
+    /*
+      Putting new value. Using history to match the pointers.
+     */
+    if (current._value !== node._value) {
       for (let i = 0; i <= nodeLevel; i++) {
         node._next[i] = history[i]._next[i];
         history[i]._next[i] = node;
