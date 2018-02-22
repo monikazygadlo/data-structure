@@ -1,16 +1,14 @@
-import { SkipList, Node} from './src/skip-list';
+import { Stack, Node} from './src/homework-02';
 
-const lista = new SkipList(4);
+const lista = new Stack();
 
-lista.add(4);
-lista.add(new Node(2));
-lista.add(1);
-lista.add(5);
-lista.add(3);
-lista.add(6);
-lista.add(6);
-lista.add(6);
-
-lista.find(3);
-console.log(lista.find(6));
-
+lista.push(new Node(6));
+lista.push(1);
+lista.push(5);
+lista.push(2);
+lista.push(3);
+lista.push(4);
+console.log(lista.top());
+lista.pop();
+lista.pop();
+console.log(lista.top());

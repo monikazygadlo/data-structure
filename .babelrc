@@ -1,4 +1,8 @@
 {
   "sourceMaps": "both",
-  "presets": ["env"]
+  "presets": ["env"],
+  "plugins": [
+    "check-es2015-constants",
+    "transform-es2015-block-scoping"
+  ]
 }
