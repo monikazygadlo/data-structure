@@ -20,4 +20,6 @@ bst.add(166);
 bst.add(200);
 bst.remove(new Node(150));
 bst.remove(175);
+console.log(bst.find(25));
+console.log(bst.find(150));
 console.log(bst);
