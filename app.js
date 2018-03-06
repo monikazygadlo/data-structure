@@ -1,14 +1,16 @@
-import { Stack, Node} from './src/homework-02';
+import {Node} from "./src/bst/node";
+import {Bst} from "./src/bst/bst";
 
-const lista = new Stack();
+const bst = new Bst();
 
-lista.push(new Node(6));
-lista.push(1);
-lista.push(5);
-lista.push(2);
-lista.push(3);
-lista.push(4);
-console.log(lista.top());
-lista.pop();
-lista.pop();
-console.log(lista.top());
+bst.add(6);
+bst.add(7);
+bst.add(3);
+bst.add(1);
+bst.add(2);
+bst.add(4);
+bst.add(8);
+bst.add(10);
+bst.add(9);
+bst.remove(2);
+console.log(bst);
