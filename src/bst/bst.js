@@ -89,7 +89,7 @@ export class Bst {
     }
 
     /**
-     * Method searches for replacement for node which is going to be delete
+     * Method searches for replacement for node which is going to be delete/add to array
      * @param node
      * @returns {*}
      */
@@ -210,7 +210,7 @@ export class Bst {
 
         //Case 3. node to delete has one child and we have to find a parent
         //First we check if node to delete has right or left child.
-        // Then we check if node to delete is right or left child of his parent.
+        //Then we check if node to delete is right or left child of his parent.
 
         else {
 
@@ -244,12 +244,78 @@ export class Bst {
         }
     }
 
+    /**
+     *  Finds minimal value in the tree
+     * @returns {*}
+     * @private
+     */
+    findMin() {
 
+        let current = this._root; //starts from root
+        let last = null;
+
+        while (current !== null) { //if current left is not a null
+            last = current;
+            current = current.left; //go deeper on left side
+        }
+
+        return last;
+
+    }
+
+    /**
+     *  Finds the maximum value in the tree
+     * @param node
+     * @returns {*}
+     * @private
+     */
+    findMax(node = this._root) {
+
+        let current = node; //starts from root
+        let last = null;
+        while (current !== null) { //if current right is not a null
+            last = current;
+            current = current.right; //go deeper on right side
+        }
+
+        return last;
+    }
+
+    /**
+     *
+     * @returns {Array}
+     */
     toArray() {
+
+        const findNode = this.findMin();
+        const maxValue = this.findMax();
+
+        let array = []; //creates empty array
+        let current = findNode; //finds min value in this tree
+
+        while (current !== null && current !== undefined) {
+
+            array.push(current.value); //adds value to an array
+
+            if (maxValue.value === current.value) {
+                break;
+            } else {
+                current = Bst.findReplacement(current); //finds next successor
+            }
+        }
+
+        return array;
+
     }
 
+    /**
+     * Use toArray() method and return all values as string
+     * @returns {string}
+     */
     toString() {
-    }
 
+        return this.toArray().join(' --> '); //uses toArray() method
+
+    }
 
 }
